@@ -99,17 +99,19 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
             real, imag = x_value.as_real_imag()
             if imag < MAX_NUMBER_THRESHOLD:  # If the imaginary part is small enough, it is considered zero.
                 x_values.append(real)
+        # Edge case: The line is vertical.
+        # If the line is vertical, the denominator of the slope will be zero.
+        # Compare the restrictions of both sides of the equation and take the union of the restrictions.
+        # TODO
 
-    compressed_points = [[x_i, sp.solve(function.subs(x, x_i), y)] for x_i in x_values]
-
-    # Decompress the points.
     points = []
-    for [x_i, y_points] in compressed_points:
-        for y_i in y_points:
+    for x_i in x_values:
+        y_values = list(sp.solve(function.subs(x, x_i), y))
+        for y_i in y_values:
             points.append([x_i, y_i])
 
     if dbg_print:
-        print(f"Point(s) of tangency: {', '.join([str(point).replace('[', '(').replace(']', ')') for point in points])}")
+        print(f"Point(s) of tangency (may contain extraneous points): {', '.join([str(point).replace('[', '(').replace(']', ')') for point in points])}")
 
     lines = []
 
