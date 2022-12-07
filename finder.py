@@ -107,11 +107,17 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
     points = []
     for x_i in x_values:
         y_values = list(sp.solve(function.subs(x, x_i), y))
-        for y_i in y_values:
-            points.append([x_i, y_i])
+        if exact:
+            for y_i in y_values:
+                points.append([x_i, y_i])
+        else:
+            for y_i in y_values:
+                points.append([x_i.evalf(), y_i.evalf()])
 
     if dbg_print:
-        print(f"Point(s) of tangency (may contain extraneous points): {', '.join([str(point).replace('[', '(').replace(']', ')') for point in points])}")
+        print("Point(s) of tangency (may contain extraneous points):")
+        for point in points:
+            print(f"({point[0]}, {point[1]})")
 
     lines = []
 
@@ -143,13 +149,15 @@ if __name__ == "__main__":
     x_input = sp.sympify(input("Enter the x value: "))
     y_input = sp.sympify(input("Enter the y value: "))
 
+    exact_values = input("Type y to output exact values: ") == "y"
+
     # Determine if the point is on the function.
     if function.subs(x, x_input).subs(y, y_input) == 0:
         print("The point is on the curve.")
-        line = on_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
+        line = on_function_line(function, dy_dx, x_input, y_input, exact=exact_values, dbg_print=True)
         print(f"The equation of the tangent line is: {line.equation} = 0")
     else:
         print("The point is not on the curve.")
-        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
+        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact=exact_values, dbg_print=True)
         for line in lines:
             print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is: {line.equation} = 0")
