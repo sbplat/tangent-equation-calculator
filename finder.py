@@ -5,6 +5,22 @@ MAX_NUMBER_THRESHOLD = sp.Number(1e-10)  # The max size of numbers to be conside
 x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
 
 
+class Line:
+    """
+    Represents information about a line.
+
+    Attributes:
+        slope (sympy.Number): The slope of the line.
+        x_value (sympy.Number): The x value of the tangent point.
+        y_value (sympy.Number): The y value of the tangent point.
+        equation (sympy.Expr): The right-hand side of the equation of the line, where y is the left-hand side.
+    """
+    def __init__(self, slope, x_value, y_value, equation):
+        self.slope = slope
+        self.x_value = x_value
+        self.y_value = y_value
+        self.equation = equation
+
 def build_line_equation(slope, x_value, y_value, exact):
     """
     Build the equation of a line given the slope, x value, and y value.
@@ -38,6 +54,7 @@ def on_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
         dbg_print (bool): Whether to print debug information.
 
     Returns:
+        Line: The tangent line.
         sympy.Expr: The right-hand side of the tangent line equation.
     """
     slope = dy_dx.subs(x, x_input).subs(y, y_input)  # Determine the slope of the tangent.
@@ -45,7 +62,8 @@ def on_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
     if dbg_print:
         print(f"The slope of the tangent is {slope}.")
 
-    return build_line_equation(slope, x_input, y_input, exact)
+    rhs_equation = build_line_equation(slope, x_input, y_input, exact)
+    return Line(slope, x_input, y_input, rhs_equation)
 
 
 def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
@@ -61,7 +79,7 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
         dbg_print (bool): Whether to print debug information.
 
     Returns:
-        List[x, y, sympy.Expr]: The x and y values of the point of intersection, and the right-hand side of the tangent line equation.
+        List[Line]: The tangent lines.
     """
     # Since the point is not on the curve, we need to solve for the point of tangency.
     # Let the point of tangency be (a, f(a)), where f is the function.
@@ -93,7 +111,7 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
     if dbg_print:
         print(f"Point(s) of tangency: {', '.join([str(point).replace('[', '(').replace(']', ')') for point in points])}")
 
-    rhs_equations = []
+    lines = []
 
     for [x_i, y_i] in points:
         slope = dy_dx.subs(x, x_i).subs(y, y_i)
@@ -103,9 +121,10 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
         if sp.Abs(slope - slope_2) > MAX_NUMBER_THRESHOLD:
             continue
 
-        rhs_equations.append([x_i, y_i, build_line_equation(slope, x_i, y_i, exact)])
+        rhs_equation = build_line_equation(slope, x_i, y_i, exact)
+        lines.append(Line(slope, x_i, y_i, rhs_equation))
 
-    return rhs_equations
+    return lines
 
 
 if __name__ == "__main__":
@@ -120,10 +139,10 @@ if __name__ == "__main__":
     # Determine if the point is on the function.
     if function.subs(x, x_input).subs(y, y_input) == 0:
         print("The point is on the curve.")
-        line_equation = on_function_line(function, dy_dx, x_input, y_input, True, True)
-        print(f"The equation of the tangent line is y = {line_equation}.")
+        line = on_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
+        print(f"The equation of the tangent line is y = {line.equation}.")
     else:
         print("The point is not on the curve.")
-        rhs_equations = exterior_function_line(function, dy_dx, x_input, y_input, True, True)
-        for [x_i, y_i, line_equation] in rhs_equations:
-            print(f"The equation of the tangent at ({x_i}, {y_i}) is: y = {line_equation}.")
+        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
+        for line in lines:
+            print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is y = {line.equation}.")
