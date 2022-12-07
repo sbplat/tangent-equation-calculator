@@ -34,7 +34,12 @@ def build_line_equation(slope, x_value, y_value, exact):
     Returns:
         sympy.Expr: The right-hand side of the line equation.
     """
-    equation = sp.simplify(slope * x - slope * x_value + y_value)
+    equation = None
+    if slope == sp.zoo:  # Vertical line
+        equation = sp.simplify(x - x_value)
+    else:
+        equation = sp.simplify(slope * x - y - slope * x_value + y_value)
+
     if exact:
         return equation
     else:
@@ -90,18 +95,14 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
     rhs_list = [(f_a - y_input) / (a - x_input) for f_a in f_a_list]
 
     # Solve for a.
-    x_values = []
+    x_values = set()
     for i in range(len(f_a_list)):
         lhs = lhs_list[i]
         rhs = rhs_list[i]
-        for x_value in sp.solve(lhs - rhs, a):
+        for x_value in sp.solve(lhs - rhs, a, check=False):  # Avoid checking to keep vertical lines
             real, imag = x_value.as_real_imag()
             if imag < MAX_NUMBER_THRESHOLD:  # If the imaginary part is small enough, it is considered zero.
-                x_values.append(real)
-        # Edge case: The line is vertical.
-        # If the line is vertical, the denominator of the slope will be zero.
-        # Compare the restrictions of both sides of the equation and take the union of the restrictions.
-        # TODO
+                x_values.add(real)
 
     points = []
     for x_i in x_values:
@@ -115,22 +116,27 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
     lines = []
 
     for [x_i, y_i] in points:
-        slope = dy_dx.subs(x, x_i).subs(y, y_i)
+        slope_1 = dy_dx.subs(x, x_i).subs(y, y_i)
+        slope_2 = (y_i - y_input) / (x_i - x_input)
 
         # Check if the slope of the tangent and two points are equal.
-        slope_2 = (y_i - y_input) / (x_i - x_input)
-        if sp.Abs(slope - slope_2) > MAX_NUMBER_THRESHOLD:
-            continue
+        try:
+            if sp.Abs(slope_1 - slope_2) > MAX_NUMBER_THRESHOLD:
+                continue
+        except TypeError as exception:
+            # Edge case: The line is vertical.
+            if not (slope_1 == sp.zoo and slope_2 == sp.zoo):
+                continue
 
-        rhs_equation = build_line_equation(slope, x_i, y_i, exact)
-        lines.append(Line(slope, x_i, y_i, rhs_equation))
+        rhs_equation = build_line_equation(slope_1, x_i, y_i, exact)
+        lines.append(Line(slope_1, x_i, y_i, rhs_equation))
 
     return lines
 
 
 if __name__ == "__main__":
     print("Tangent Line Equation Finder Using Derivatives")
-    function = sp.sympify(input("Enter a function: "))
+    function = sp.sympify(input("Enter a function in terms of x and y: 0 = "))
     dy_dx = sp.idiff(function, y, x)  # Find the derivative of y with respect to x.
     print(f"dy/dx = {dy_dx}")
 
@@ -141,9 +147,9 @@ if __name__ == "__main__":
     if function.subs(x, x_input).subs(y, y_input) == 0:
         print("The point is on the curve.")
         line = on_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
-        print(f"The equation of the tangent line is y = {line.equation}.")
+        print(f"The equation of the tangent line is: {line.equation} = 0")
     else:
         print("The point is not on the curve.")
         lines = exterior_function_line(function, dy_dx, x_input, y_input, exact=True, dbg_print=True)
         for line in lines:
-            print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is y = {line.equation}.")
+            print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is: {line.equation} = 0")
