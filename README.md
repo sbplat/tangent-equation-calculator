@@ -32,7 +32,7 @@
 ## Running
 
 1. Clone this project.
-2. Run `finder.py` with Python 3.
+2. Run `calculator.py` with Python 3.
 3. Enter the function, point, and output type.
 
 ## License
