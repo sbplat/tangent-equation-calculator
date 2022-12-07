@@ -55,7 +55,6 @@ def on_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
 
     Returns:
         Line: The tangent line.
-        sympy.Expr: The right-hand side of the tangent line equation.
     """
     slope = dy_dx.subs(x, x_input).subs(y, y_input)  # Determine the slope of the tangent.
 
