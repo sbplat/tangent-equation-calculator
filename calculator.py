@@ -7,6 +7,7 @@ x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
 dbg_print = True
 dbg = print if dbg_print else lambda *a, **k: None
 
+
 class Line:
     """
     Represents information about a line.
@@ -22,6 +23,17 @@ class Line:
         self.x_value = x_value
         self.y_value = y_value
         self.equation = equation
+
+
+    @property
+    def __dict__(self):
+        return {
+            "slope": str(self.slope),
+            "x_value": str(self.x_value),
+            "y_value": str(self.y_value),
+            "equation": str(self.equation)
+        }
+
 
 def build_line_equation(slope, x_value, y_value, exact):
     """
