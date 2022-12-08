@@ -4,7 +4,7 @@ MAX_NUMBER_THRESHOLD = sp.Number(1e-10)  # The max size of numbers to be conside
 
 x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
 
-dbg_print = True
+dbg_print = False
 dbg = print if dbg_print else lambda *a, **k: None
 
 
