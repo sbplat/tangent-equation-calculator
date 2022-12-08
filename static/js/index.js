@@ -12,7 +12,13 @@ $(document).ready(function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
-                console.log(data);
+                $("#dy_dx").text(`dy/dx = ${data.dy_dx}`);
+                let info = data.lines.length == 0 ? "No tangent line" : "";
+                for (let i = 0; i < data.lines.length; ++i) {
+                    let line = data.lines[i];
+                    info += `Point: (${line.x_value}, ${line.y_value})<br>${line.equation} = 0<br><br>`;
+                }
+                $("#info").html(info);
             }
         });
     });
