@@ -4,6 +4,8 @@ MAX_NUMBER_THRESHOLD = sp.Number(1e-10)  # The max size of numbers to be conside
 
 x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
 
+dbg_print = True
+dbg = print if dbg_print else lambda *a, **k: None
 
 class Line:
     """
@@ -46,7 +48,7 @@ def build_line_equation(slope, x_value, y_value, exact):
         return equation.evalf()
 
 
-def on_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
+def on_function_line(function, dy_dx, x_input, y_input, exact):
     """
     Find the equation of a tangent line when the point is on the function.
 
@@ -56,21 +58,19 @@ def on_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
         x_input (sympy.Number): The x value of the point.
         y_input (sympy.Number): The y value of the point.
         exact (bool): Whether to use exact values.
-        dbg_print (bool): Whether to print debug information.
 
     Returns:
         Line: The tangent line.
     """
     slope = dy_dx.subs(x, x_input).subs(y, y_input)  # Determine the slope of the tangent.
 
-    if dbg_print:
-        print(f"The slope of the tangent is {slope}.")
+    dbg(f"The slope of the tangent is {slope}.")
 
     rhs_equation = build_line_equation(slope, x_input, y_input, exact)
     return Line(slope, x_input, y_input, rhs_equation)
 
 
-def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
+def exterior_function_line(function, dy_dx, x_input, y_input, exact):
     """
     Find the equation of a tangent line when the point is exterior to the function.
 
@@ -80,7 +80,6 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
         x_input (sympy.Number): The x value of the point.
         y_input (sympy.Number): The y value of the point.
         exact (bool): Whether to use exact values.
-        dbg_print (bool): Whether to print debug information.
 
     Returns:
         List[Line]: The tangent lines.
@@ -114,10 +113,9 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact, dbg_print):
             for y_i in y_values:
                 points.append([x_i.evalf(), y_i.evalf()])
 
-    if dbg_print:
-        print("Point(s) of tangency (may contain extraneous points):")
-        for point in points:
-            print(f"({point[0]}, {point[1]})")
+    dbg("Point(s) of tangency (may contain extraneous points):")
+    for point in points:
+        dbg(f"({point[0]}, {point[1]})")
 
     lines = []
 
@@ -154,10 +152,10 @@ if __name__ == "__main__":
     # Determine if the point is on the function.
     if function.subs(x, x_input).subs(y, y_input) == 0:
         print("The point is on the curve.")
-        line = on_function_line(function, dy_dx, x_input, y_input, exact=exact_values, dbg_print=True)
+        line = on_function_line(function, dy_dx, x_input, y_input, exact_values)
         print(f"The equation of the tangent line is: {line.equation} = 0")
     else:
         print("The point is not on the curve.")
-        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact=exact_values, dbg_print=True)
+        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact_values)
         for line in lines:
             print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is: {line.equation} = 0")
