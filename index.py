@@ -23,25 +23,25 @@ def calculate():
         y = str(data["y"])
         output = str(data["output"])
     except (KeyError, TypeError):
-        return json.dumps({"error": "Error accessing data from request."}), 400
+        return json.dumps({"error": "Error accessing data from request."}), 204
 
     # Validate the data
     if fcn is None or x is None or y is None or output not in ["exact", "decimal"]:
-        return json.dumps({"error": "Invalid request data"}), 400
+        return json.dumps({"error": "Invalid request data"}), 204
 
     # Parse data to sympy expressions
     try:
         fcn = sp.sympify(fcn)
         x = sp.sympify(x)
         y = sp.sympify(y)
-    except exception as e:
-        return json.dumps({"error": f"Error parsing data: {e}"}), 400
+    except Exception as e:
+        return json.dumps({"error": f"Error parsing data: {e}"}), 204
 
     # Calculate the tangent equation
     try:
         dy_dx, lines = calc.calculate(fcn, x, y, output == "exact")
-    except exception as e:
-        return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 400
+    except Exception as e:
+        return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 204
 
     return json.dumps({"dy_dx": str(dy_dx), "lines": [vars(line) for line in lines]}), 200
 

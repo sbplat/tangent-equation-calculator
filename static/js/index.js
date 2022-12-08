@@ -5,6 +5,8 @@ $(document).ready(function() {
         let x = $("#x").val();
         let y = $("#y").val();
         let output = $("#output").val();
+        $("#dy_dx").text("Loading...");
+        $("#info").text("Loading...");
         $.ajax({
             url: "/calculate",
             type: "POST",
@@ -12,8 +14,15 @@ $(document).ready(function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
-                $("#dy_dx").text(`dy/dx = ${data.dy_dx}`);
-                let info = data.lines.length == 0 ? "No tangent line" : "";
+                if (data.error) {
+                    $("#dy_dx").html("Error");
+                    $("#info").html(data.error.replace(/\n/g, "<br>"));
+                    return;
+                }
+                $("#dy_dx").html(`dy/dx = ${data.dy_dx}`);
+                let info = data.lines.length == 0
+                    ? "No tangent line"
+                    : `${data.lines.length} tangent line${data.lines.length > 1 ? "s" : ""}`;
                 for (let i = 0; i < data.lines.length; ++i) {
                     let line = data.lines[i];
                     info += `Point: (${line.x_value}, ${line.y_value})<br>${line.equation} = 0<br><br>`;
