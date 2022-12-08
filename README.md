@@ -12,7 +12,6 @@
 
 <p align="center">
   <a href="#features">Features</a> •
-  <a href="#planned-features">Planned Features</a> •
   <a href="#running">Running</a> •
   <a href="#license">License</a>
 </p>
@@ -31,8 +30,9 @@
 ### Web App
 
 1. Clone this project.
-2. Run `index.py` to start the web server.
-3. Open the `localhost` address shown in the terminal in your browser.
+2. Install necessary dependencies with `pip install -r requirements.txt`.
+3. Run `index.py` to start the web server.
+4. Navigate to the `localhost:PORT` address (shown in the terminal) in your browser.
 
 ### Python Module
 
