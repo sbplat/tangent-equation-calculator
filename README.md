@@ -24,16 +24,20 @@
 * Compute complex relationships using implicit differentiation
 * Exact and decimal output
 * Supports vertical lines
-
-## Planned Features
-
-* Web app
+* Comes with a web app and python module
 
 ## Running
 
+### Web App
+
 1. Clone this project.
-2. Run `calculator.py` with Python 3.
-3. Enter the function, point, and output type.
+2. Run `index.py` to start the web server.
+3. Open the `localhost` address shown in the terminal in your browser.
+
+### Python Module
+
+1. Clone this project.
+2. Run `calculator.py` to start the program.
 
 ## License
 
