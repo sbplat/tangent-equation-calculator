@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tangent Equation Calculator</title>
+    <link rel="stylesheet" type="text/css" href="static/css/index.css">
+</head>
+<body>
+    <h3>Tangent Equation Calculator</h3>
+    <h4>— Calculate the tangent equation of a line given a point.</h4>
+    <form id="form">
+        <label for="fcn">Function (equal to 0)</label><br>
+        <input type="text" id="fcn" name="fcn" placeholder="x^2+y^2-1" required><br>
+        <label for="x">x</label><br>
+        <input type="text" id="x" name="x" placeholder="0" required><br>
+        <label for="y">y</label><br>
+        <input type="text" id="y" name="y" placeholder="0" required><br>
+        <label for="output">Output</label><br>
+        <select id="output" name="output">
+            <option value="exact">Exact</option>
+            <option value="decimal">Decimal</option>
+        </select><br>
+        <input type="submit" value="Calculate">
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="static/js/index.js"></script>
+</body>
+</html>
