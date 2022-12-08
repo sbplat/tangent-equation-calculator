@@ -19,10 +19,10 @@ $(document).ready(function() {
                     $("#info").html(data.error.replace(/\n/g, "<br>"));
                     return;
                 }
-                $("#dy_dx").html(`dy/dx = ${data.dy_dx}`);
+                $("#dy_dx").html(`<strong>dy/dx</strong> = ${data.dy_dx}`);
                 let info = data.lines.length == 0
-                    ? "No tangent line"
-                    : `${data.lines.length} tangent line${data.lines.length > 1 ? "s" : ""}`;
+                    ? "<strong>No tangent line</strong>"
+                    : `<strong>${data.lines.length} tangent line${data.lines.length > 1 ? "s" : ""}:</strong><br>`;
                 for (let i = 0; i < data.lines.length; ++i) {
                     let line = data.lines[i];
                     info += `Point: (${line.x_value}, ${line.y_value})<br>${line.equation} = 0<br><br>`;
