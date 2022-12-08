@@ -63,9 +63,6 @@ def on_function_line(function, dy_dx, x_input, y_input, exact):
         Line: The tangent line.
     """
     slope = dy_dx.subs(x, x_input).subs(y, y_input)  # Determine the slope of the tangent.
-
-    dbg(f"The slope of the tangent is {slope}.")
-
     rhs_equation = build_line_equation(slope, x_input, y_input, exact)
     return Line(slope, x_input, y_input, rhs_equation)
 
@@ -138,24 +135,45 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
     return lines
 
 
-if __name__ == "__main__":
-    print("Tangent Line Equation Finder Using Derivatives")
-    function = sp.sympify(input("Enter a function in terms of x and y: 0 = "))
+def calculate(function, x_input, y_input, exact):
+    """
+    Calculate the equation of the tangent line.
+
+    Args:
+        function (sympy.Expr): The function.
+        x_input (sympy.Number): The x value of the point.
+        y_input (sympy.Number): The y value of the point.
+        exact (bool): Whether to use exact values.
+
+    Returns:
+        sympy.Expr: dy/dx of the function.
+        List[Line]: The tangent lines.
+    """
     dy_dx = sp.idiff(function, y, x)  # Find the derivative of y with respect to x.
-    print(f"dy/dx = {dy_dx}")
 
-    x_input = sp.sympify(input("Enter the x value: "))
-    y_input = sp.sympify(input("Enter the y value: "))
-
-    exact_values = input("Type y to output exact values: ") == "y"
+    lines = []
 
     # Determine if the point is on the function.
     if function.subs(x, x_input).subs(y, y_input) == 0:
-        print("The point is on the curve.")
-        line = on_function_line(function, dy_dx, x_input, y_input, exact_values)
-        print(f"The equation of the tangent line is: {line.equation} = 0")
+        lines.append(on_function_line(function, dy_dx, x_input, y_input, exact))
     else:
-        print("The point is not on the curve.")
-        lines = exterior_function_line(function, dy_dx, x_input, y_input, exact_values)
-        for line in lines:
-            print(f"The equation of the tangent at ({line.x_value}, {line.y_value}) is: {line.equation} = 0")
+        lines.extend(exterior_function_line(function, dy_dx, x_input, y_input, exact))
+
+    return dy_dx, lines
+
+
+if __name__ == "__main__":
+    print("Tangent Line Equation Finder Using Derivatives")
+    function = sp.sympify(input("Enter a function in terms of x and y: 0 = "))
+    x_input = sp.sympify(input("Enter the x value of the point: "))
+    y_input = sp.sympify(input("Enter the y value of the point: "))
+    exact = input("Type y to use exact values: ") == "y"
+
+    dy_dx, lines = calculate(function, x_input, y_input, exact)
+    print(f"The derivative of y with respect to x is {dy_dx}.")
+    print("The tangent point(s) and line(s) is/are:")
+    for line in lines:
+        print(f"Tangent point: ({line.x_value}, {line.y_value})")
+        print(f"{line.equation} = 0")
+    if len(lines) == 0:
+        print("No tangent line exists.")
