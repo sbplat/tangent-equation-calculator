@@ -1,6 +1,7 @@
 import json
 import sympy as sp
 import calculator as calc
+import str_parser as parser
 from flask import Flask, render_template, request
 
 app = Flask(__name__, static_url_path="/static", static_folder="static")
@@ -31,9 +32,9 @@ def calculate():
 
     # Parse data to sympy expressions
     try:
-        fcn = sp.sympify(fcn)
-        x = sp.sympify(x)
-        y = sp.sympify(y)
+        fcn = parser.parse(fcn)
+        x = parser.parse(x)
+        y = parser.parse(y)
     except Exception as e:
         return json.dumps({"error": f"Error parsing data: {e}"}), 200
 

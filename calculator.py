@@ -1,4 +1,5 @@
 import sympy as sp
+import str_parser as parser
 
 MAX_NUMBER_THRESHOLD = sp.Number(1e-10)  # The max size of numbers to be considered zero.
 
@@ -176,9 +177,9 @@ def calculate(function, x_input, y_input, exact):
 
 if __name__ == "__main__":
     print("Tangent Line Equation Finder Using Derivatives")
-    function = sp.sympify(input("Enter a function in terms of x and y: 0 = "))
-    x_input = sp.sympify(input("Enter the x value of the point: "))
-    y_input = sp.sympify(input("Enter the y value of the point: "))
+    function = parser.parse(input("Enter a function in terms of x and y: 0 = "))
+    x_input = parser.parse(input("Enter the x value of the point: "))
+    y_input = parser.parse(input("Enter the y value of the point: "))
     exact = input("Type y to use exact values: ") == "y"
 
     dy_dx, lines = calculate(function, x_input, y_input, exact)
