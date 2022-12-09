@@ -1,11 +1,11 @@
 import ast
-import sympy as sp
+import sympy
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, convert_xor
 
 transformations = standard_transformations + (convert_xor,)
-sympy_defs = dir(sp)  # Get all sympy definitions
+sympy_defs = dir(sympy)  # Get all sympy definitions
 
-def is_safe(string):
+def is_safe(string: str) -> bool:
     """
     Check if a string is safe for eval. This reduces the risk of arbitrary code execution, but may not catch all cases.
 
@@ -39,7 +39,7 @@ def is_safe(string):
             return False
     return True
 
-def parse(expr: str) -> sp.Expr:
+def parse(expr: str) -> sympy.Expr:
     """
     Parse an arbitrary string into a sympy expression.
 

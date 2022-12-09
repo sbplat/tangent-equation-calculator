@@ -1,5 +1,4 @@
 import json
-import sympy as sp
 import calculator as calc
 import str_parser as parser
 from flask import Flask, render_template, request
@@ -30,6 +29,8 @@ def calculate():
 
     # Parse data to sympy expressions
     try:
+        if "y" not in fcn:
+            fcn = f"y - ({fcn})"  # The dependent variable, y, is required.
         fcn = parser.parse(fcn)
         x = parser.parse(x)
         y = parser.parse(y)

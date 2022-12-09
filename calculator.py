@@ -1,9 +1,10 @@
-import sympy as sp
+import sympy
 import str_parser as parser
+from typing import List, Tuple
 
-MAX_NUMBER_THRESHOLD = sp.Number(1e-10)  # The max size of numbers to be considered zero.
+MAX_NUMBER_THRESHOLD = sympy.Number(1e-10)  # The max size of numbers to be considered zero.
 
-x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
+x, y = sympy.symbols("x y")  # Variables for the function, y is dependent on x.
 
 dbg_print = False
 dbg = print if dbg_print else lambda *a, **k: None
@@ -18,14 +19,14 @@ class Line:
         y_value (sympy.Number): The y value of the tangent point.
         equation (sympy.Expr): The right-hand side of the equation of the line, where y is the left-hand side.
     """
-    def __init__(self, slope, x_value, y_value, equation):
+    def __init__(self, slope: sympy.Number, x_value: sympy.Number, y_value: sympy.Number, equation: sympy.Expr):
         self.slope = slope
         self.x_value = x_value
         self.y_value = y_value
         self.equation = equation
 
     @property
-    def __dict__(self):
+    def __dict__(self) -> dict:
         return {
             "slope": str(self.slope),
             "x_value": str(self.x_value),
@@ -33,7 +34,7 @@ class Line:
             "equation": str(self.equation)
         }
 
-def build_line_equation(slope, x_value, y_value, exact):
+def build_line_equation(slope: sympy.Number, x_value: sympy.Number, y_value: sympy.Number, exact: bool) -> sympy.Expr:
     """
     Build the equation of a line given the slope, x value, and y value.
 
@@ -47,17 +48,17 @@ def build_line_equation(slope, x_value, y_value, exact):
         sympy.Expr: The right-hand side of the line equation.
     """
     equation = None
-    if slope == sp.zoo:  # Vertical line
-        equation = sp.simplify(x - x_value)
+    if slope == sympy.zoo:  # Vertical line
+        equation = sympy.simplify(x - x_value)
     else:
-        equation = sp.simplify(slope * x - y - slope * x_value + y_value)
+        equation = sympy.simplify(slope * x - y - slope * x_value + y_value)
 
     if exact:
         return equation
     else:
         return equation.evalf()
 
-def on_function_line(function, dy_dx, x_input, y_input, exact):
+def on_function_line(function: sympy.Expr, dy_dx: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number, exact: bool) -> Line:
     """
     Find the equation of a tangent line when the point is on the function.
 
@@ -75,7 +76,7 @@ def on_function_line(function, dy_dx, x_input, y_input, exact):
     rhs_equation = build_line_equation(slope, x_input, y_input, exact)
     return Line(slope, x_input, y_input, rhs_equation)
 
-def exterior_function_line(function, dy_dx, x_input, y_input, exact):
+def exterior_function_line(function: sympy.Expr, dy_dx: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number, exact: bool) -> List[Line]:
     """
     Find the equation of a tangent line when the point is exterior to the function.
 
@@ -91,8 +92,8 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
     """
     # Since the point is not on the curve, we need to solve for the point of tangency.
     # Let the point of tangency be (a, f(a)), where f is the function.
-    a = sp.Symbol("a")  # Define the variable a.
-    f_a_list = sp.solve(function.subs(x, a), y)  # Solve for f(a).
+    a = sympy.Symbol("a")  # Define the variable a.
+    f_a_list = sympy.solve(function.subs(x, a), y)  # Solve for f(a).
 
     # The slope of the tangent is dy/dx, so dy/dx = (f(a) - y) / (a - x).
     lhs_list = [dy_dx.subs(x, a).subs(y, f_a) for f_a in f_a_list]
@@ -103,14 +104,14 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
     for i in range(len(f_a_list)):
         lhs = lhs_list[i]
         rhs = rhs_list[i]
-        for x_value in sp.solve(lhs - rhs, a, check=False):  # Avoid checking to keep vertical lines
+        for x_value in sympy.solve(lhs - rhs, a, check=False):  # Avoid checking to keep vertical lines
             real, imag = x_value.as_real_imag()
             if imag < MAX_NUMBER_THRESHOLD:  # If the imaginary part is small enough, it is considered zero.
                 x_values.add(real)
 
     points = []
     for x_i in x_values:
-        y_values = list(sp.solve(function.subs(x, x_i), y))
+        y_values = list(sympy.solve(function.subs(x, x_i), y))
         if exact:
             for y_i in y_values:
                 points.append([x_i, y_i])
@@ -130,11 +131,11 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
 
         # Check if the slope of the tangent and two points are equal.
         try:
-            if sp.Abs(slope_1 - slope_2) > MAX_NUMBER_THRESHOLD:
+            if sympy.Abs(slope_1 - slope_2) > MAX_NUMBER_THRESHOLD:
                 continue
         except TypeError as exception:
             # Edge case: The line is vertical.
-            if not (slope_1 == sp.zoo and slope_2 == sp.zoo):
+            if not (slope_1 == sympy.zoo and slope_2 == sympy.zoo):
                 continue
 
         rhs_equation = build_line_equation(slope_1, x_i, y_i, exact)
@@ -142,7 +143,7 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
 
     return lines
 
-def calculate(function, x_input, y_input, exact):
+def calculate(function: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number, exact: bool) -> Tuple[sympy.Expr, List[Line]]:
     """
     Calculate the equation of the tangent line.
 
@@ -156,7 +157,7 @@ def calculate(function, x_input, y_input, exact):
         sympy.Expr: dy/dx of the function.
         List[Line]: The tangent lines.
     """
-    dy_dx = sp.idiff(function, y, x)  # Find the derivative of y with respect to x.
+    dy_dx = sympy.idiff(function, y, x)  # Find the derivative of y with respect to x.
 
     lines = []
 
@@ -170,7 +171,10 @@ def calculate(function, x_input, y_input, exact):
 
 if __name__ == "__main__":
     print("Tangent Line Equation Finder Using Derivatives")
-    function = parser.parse(input("Enter a function in terms of x and y: 0 = "))
+    function_str = input("Enter a function in terms of x and y: 0 = ")
+    if "y" not in function_str:
+        function_str = f"y - ({function_str})"
+    function = parser.parse(function_str)
     x_input = parser.parse(input("Enter the x value of the point: "))
     y_input = parser.parse(input("Enter the y value of the point: "))
     exact = input("Type y to use exact values: ") == "y"
