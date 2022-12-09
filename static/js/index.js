@@ -27,7 +27,9 @@ $(document).ready(function() {
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#dy_dx").html("An error occurred");
                 if (jqXHR.responseJSON) {
-                    $("#info").html(`Status code: ${jqXHR.status}<br>${jqXHR.responseJSON.error}`);
+                    let error = jqXHR.responseJSON.error;
+                    let error_msg = (typeof error === "string" ? error : JSON.stringify(error)).replaceAll("\n", "<br>");
+                    $("#info").html(`Status code: ${jqXHR.status}<br>${error_msg}`);
                 } else {
                     $("#info").html(`Status code: ${jqXHR.status}<br>Error thrown: ${errorThrown}`);
                 }
