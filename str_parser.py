@@ -56,7 +56,7 @@ def parse(expr: str) -> sympy.Expr:
         raise ValueError("Expression must be a string.")
 
     if "=" in expr:
-        raise ValueError("Expression must be all on one side of the equals sign.")
+        raise ValueError("Expression must be all on one side of the equals sign, omitting the equals sign.")
 
     # Check if the expression is safe for eval.
     if not is_safe(expr):
@@ -65,4 +65,4 @@ def parse(expr: str) -> sympy.Expr:
     try:
         return parse_expr(expr, transformations=transformations)
     except Exception as exception:
-        raise ValueError("Sympy could not parse the expression.") from exception
+        raise ValueError("Could not parse the expression.") from exception
