@@ -6,11 +6,9 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__, static_url_path="/static", static_folder="static")
 
-
 @app.route("/")
 def index():
     return app.send_static_file("index.html")
-
 
 @app.route("/calculate", methods=["POST"])
 def calculate():
@@ -45,7 +43,6 @@ def calculate():
         return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 200
 
     return json.dumps({"dy_dx": str(dy_dx), "lines": [vars(line) for line in lines]}), 200
-
 
 if __name__ == "__main__":
     app.run(threaded=True)

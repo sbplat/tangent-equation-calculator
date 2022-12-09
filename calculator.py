@@ -8,7 +8,6 @@ x, y = sp.symbols("x y")  # Variables for the function, y is dependent on x.
 dbg_print = False
 dbg = print if dbg_print else lambda *a, **k: None
 
-
 class Line:
     """
     Represents information about a line.
@@ -25,7 +24,6 @@ class Line:
         self.y_value = y_value
         self.equation = equation
 
-
     @property
     def __dict__(self):
         return {
@@ -34,7 +32,6 @@ class Line:
             "y_value": str(self.y_value),
             "equation": str(self.equation)
         }
-
 
 def build_line_equation(slope, x_value, y_value, exact):
     """
@@ -60,7 +57,6 @@ def build_line_equation(slope, x_value, y_value, exact):
     else:
         return equation.evalf()
 
-
 def on_function_line(function, dy_dx, x_input, y_input, exact):
     """
     Find the equation of a tangent line when the point is on the function.
@@ -78,7 +74,6 @@ def on_function_line(function, dy_dx, x_input, y_input, exact):
     slope = dy_dx.subs(x, x_input).subs(y, y_input)  # Determine the slope of the tangent.
     rhs_equation = build_line_equation(slope, x_input, y_input, exact)
     return Line(slope, x_input, y_input, rhs_equation)
-
 
 def exterior_function_line(function, dy_dx, x_input, y_input, exact):
     """
@@ -147,7 +142,6 @@ def exterior_function_line(function, dy_dx, x_input, y_input, exact):
 
     return lines
 
-
 def calculate(function, x_input, y_input, exact):
     """
     Calculate the equation of the tangent line.
@@ -173,7 +167,6 @@ def calculate(function, x_input, y_input, exact):
         lines.extend(exterior_function_line(function, dy_dx, x_input, y_input, exact))
 
     return dy_dx, lines
-
 
 if __name__ == "__main__":
     print("Tangent Line Equation Finder Using Derivatives")
