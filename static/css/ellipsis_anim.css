@@ -1,0 +1,12 @@
+.loading::after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    width: 0;
+    content: "\2026";
+    animation: ellipsis steps(4, end) 1s infinite;
+}
+
+@keyframes ellipsis {
+    to { width: 1.5em; }
+}

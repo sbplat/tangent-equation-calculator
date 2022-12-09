@@ -5,8 +5,9 @@ $(document).ready(function() {
         let x = $("#x").val();
         let y = $("#y").val();
         let output = $("#output").val();
-        $("#dy_dx").text("Loading...");
-        $("#info").text("Loading...");
+        let loading_message = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
+        $("#dy_dx").addClass("loading").html(`<em>${loading_message}</em>`);
+        $("#info").html("");
         $.ajax({
             url: "/calculate",
             type: "POST",
@@ -14,6 +15,7 @@ $(document).ready(function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
+                $("#dy_dx").removeClass("loading");
                 $("#dy_dx").html(`<strong>dy/dx</strong> = ${data.dy_dx}`);
                 let info = data.lines.length == 0
                     ? "<strong>No tangent line</strong>"
@@ -25,6 +27,7 @@ $(document).ready(function() {
                 $("#info").html(info);
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                $("#dy_dx").removeClass("loading");
                 if (jqXHR.status == 500) {
                     // We have dy/dx, but an error occurred when calculating the tangent line.
                     $("#dy_dx").html(`<strong>dy/dx</strong> = ${jqXHR.responseJSON.dy_dx}`);
