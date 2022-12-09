@@ -1,6 +1,6 @@
 import sympy
 import str_parser as parser
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 MAX_NUMBER_THRESHOLD = sympy.Number(1e-10)  # The max size of numbers to be considered zero.
 
@@ -143,7 +143,7 @@ def exterior_function_line(function: sympy.Expr, dy_dx: sympy.Expr, x_input: sym
 
     return lines
 
-def calculate(function: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number, exact: bool) -> Tuple[sympy.Expr, List[Line]]:
+def calculate(function: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number, exact: bool) -> Tuple[sympy.Expr, Union[List[Line], Exception]]:
     """
     Calculate the equation of the tangent line.
 
@@ -155,17 +155,20 @@ def calculate(function: sympy.Expr, x_input: sympy.Number, y_input: sympy.Number
 
     Returns:
         sympy.Expr: dy/dx of the function.
-        List[Line]: The tangent lines.
+        Union[List[Line], Exception]: The tangent lines or an exception if one occurs when solving for the point of tangency
     """
     dy_dx = sympy.idiff(function, y, x)  # Find the derivative of y with respect to x.
 
     lines = []
 
-    # Determine if the point is on the function.
-    if function.subs(x, x_input).subs(y, y_input) == 0:
-        lines.append(on_function_line(function, dy_dx, x_input, y_input, exact))
-    else:
-        lines.extend(exterior_function_line(function, dy_dx, x_input, y_input, exact))
+    try:
+        # Determine if the point is on the function.
+        if function.subs(x, x_input).subs(y, y_input) == 0:
+            lines.append(on_function_line(function, dy_dx, x_input, y_input, exact))
+        else:
+            lines.extend(exterior_function_line(function, dy_dx, x_input, y_input, exact))
+    except Exception as exception:
+        return dy_dx, exception
 
     return dy_dx, lines
 
@@ -181,9 +184,12 @@ if __name__ == "__main__":
 
     dy_dx, lines = calculate(function, x_input, y_input, exact)
     print(f"The derivative of y with respect to x is {dy_dx}.")
-    print("The tangent point(s) and line(s) is/are:")
-    for line in lines:
-        print(f"Tangent point: ({line.x_value}, {line.y_value})")
-        print(f"{line.equation} = 0")
-    if len(lines) == 0:
-        print("No tangent line exists.")
+    if isinstance(lines, Exception):
+        print(f"An error occurred when solving for the point of tangency: {lines}")
+    else:
+        print("The tangent point(s) and line(s) is/are:")
+        for line in lines:
+            print(f"Tangent point: ({line.x_value}, {line.y_value})")
+            print(f"{line.equation} = 0")
+        if len(lines) == 0:
+            print("No tangent line exists.")

@@ -38,10 +38,9 @@ def calculate():
         return json.dumps({"error": f"Error parsing data: {e}"}), 400
 
     # Calculate the tangent equation
-    try:
-        dy_dx, lines = calc.calculate(fcn, x, y, output == "exact")
-    except Exception as e:
-        return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 500
+    dy_dx, lines = calc.calculate(fcn, x, y, output == "exact")
+    if isinstance(lines, Exception):
+        return json.dumps({"error": f"Error calculating tangent equation: {lines}", "dy_dx": str(dy_dx)}), 500
 
     return json.dumps({"dy_dx": str(dy_dx), "lines": [vars(line) for line in lines]}), 200
 

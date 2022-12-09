@@ -25,7 +25,13 @@ $(document).ready(function() {
                 $("#info").html(info);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $("#dy_dx").html("An error occurred");
+                if (jqXHR.status == 500) {
+                    // We have dy/dx, but an error occurred when calculating the tangent line.
+                    $("#dy_dx").html(`<strong>dy/dx</strong> = ${jqXHR.responseJSON.dy_dx}`);
+                } else {
+                    // We don't have anything.
+                    $("#dy_dx").html("An error occurred.");
+                }
                 if (jqXHR.responseJSON) {
                     let error = jqXHR.responseJSON.error;
                     let error_msg = (typeof error === "string" ? error : JSON.stringify(error)).replaceAll("\n", "<br>");
