@@ -14,11 +14,6 @@ $(document).ready(function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
-                if (data.error) {
-                    $("#dy_dx").html("Error");
-                    $("#info").html(data.error.replace(/\n/g, "<br>"));
-                    return;
-                }
                 $("#dy_dx").html(`<strong>dy/dx</strong> = ${data.dy_dx}`);
                 let info = data.lines.length == 0
                     ? "<strong>No tangent line</strong>"
@@ -28,6 +23,14 @@ $(document).ready(function() {
                     info += `Point: (${line.x_value}, ${line.y_value})<br>${line.equation} = 0<br><br>`;
                 }
                 $("#info").html(info);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $("#dy_dx").html("An error occurred");
+                if (jqXHR.responseJSON) {
+                    $("#info").html(`Status code: ${jqXHR.status}<br>${jqXHR.responseJSON.error}`);
+                } else {
+                    $("#info").html(`Status code: ${jqXHR.status}<br>Error thrown: ${errorThrown}`);
+                }
             }
         });
     });

@@ -21,11 +21,11 @@ def calculate():
         y = str(data["y"])
         output = str(data["output"])
     except (KeyError, TypeError):
-        return json.dumps({"error": "Error accessing data from request."}), 200
+        return json.dumps({"error": "Error accessing data from request."}), 400
 
     # Validate the data
     if fcn is None or x is None or y is None or output not in ["exact", "decimal"]:
-        return json.dumps({"error": "Invalid request data"}), 200
+        return json.dumps({"error": "Invalid request data"}), 400
 
     # Parse data to sympy expressions
     try:
@@ -35,13 +35,13 @@ def calculate():
         x = parser.parse(x)
         y = parser.parse(y)
     except Exception as e:
-        return json.dumps({"error": f"Error parsing data: {e}"}), 200
+        return json.dumps({"error": f"Error parsing data: {e}"}), 400
 
     # Calculate the tangent equation
     try:
         dy_dx, lines = calc.calculate(fcn, x, y, output == "exact")
     except Exception as e:
-        return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 200
+        return json.dumps({"error": f"Error calculating tangent equation: {e}"}), 500
 
     return json.dumps({"dy_dx": str(dy_dx), "lines": [vars(line) for line in lines]}), 200
 
