@@ -1,3 +1,4 @@
+const BASE_URL = "https://tangent-equation-calculator.vercel.app";
 $(document).ready(function() {
     $("#form").submit(function(event) {
         event.preventDefault();  // We will handle the form submission ourselves.
@@ -9,11 +10,15 @@ $(document).ready(function() {
         $("#dy_dx").addClass("loading").html(`<em>${loading_message}</em>`);
         $("#info").html("");
         $.ajax({
-            url: "/calculate",
+            url: BASE_URL + "/calculate",
             type: "POST",
+            crossDomain: true,
             data: JSON.stringify({fcn: fcn, x: x, y: y, output: output}),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            },
             success: function(data) {
                 $("#dy_dx").removeClass("loading");
                 $("#dy_dx").html(`<strong>dy/dx</strong> = ${data.dy_dx}`);
