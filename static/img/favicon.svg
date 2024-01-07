@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" width="320" height="320" xmlns="http://www.w3.org/2000/svg">
-  <g transform="scale(2,2)">
-    <g id="background-ae1e5b6e">
-      <rect fill="white" stroke="none" x="0" y="0" width="160" height="160" class="dcg-svg-background"/>
+<svg version="1.1" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <g transform="scale(2)">
+    <rect class="dcg-svg-background" width="160" height="160" fill-opacity="0" stroke="transparent"/>
+    <g id="sketch">
+      <title>Expression 1</title>
+      <path class="dcg-svg-curve" d="m51.648 168v0l0.61774-3.5333 1.8359-10.037 1.7969-9.3781 1.7578-8.7483 1.7187-8.1465 1.6797-7.5722 1.6406-7.0247 1.6016-6.5035 1.5625-6.0078 1.5234-5.5371 1.4844-5.0907 1.4453-4.6681 1.4062-4.2686 1.3672-3.8915 1.3281-3.5363 1.2891-3.2022 1.25-2.8888 1.25-2.6758 1.2109-2.389 1.1719-2.1216 1.1328-1.8729 1.1328-1.6979 1.0938-1.4733 1.0938-1.3102 1.0547-1.1089 1.0547-0.95727 1.0937-0.83253 1.0547-0.64832 0.97656-0.46506 0.9375-0.32412 0.89844-0.19817 0.89844-0.088106 0.85938 0.01871 0.85937 0.11941 0.89844 0.2325 0.9375 0.35995 0.97656 0.50238 1.0156 0.66041 1.0938 0.8685 1.0938 1.0316 1.0547 1.1492 1.0938 1.352 1.0938 1.5151 1.0938 1.6782 1.1328 1.9101 1.1719 2.1601 1.1719 2.3474 1.2109 2.6223 1.25 2.9166 1.2891 3.2309 1.2891 3.4575 1.3281 3.7992 1.3672 4.1622 1.4062 4.547 1.4453 4.9543 1.4844 5.3846 1.5234 5.8387 1.5625 6.3172 1.6016 6.8206 1.6406 7.3496 1.6797 7.9048 1.6797 8.2894 1.7188 8.8804 1.7578 9.4989 1.1189 6.3175" fill="none" stroke="#c74440" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity=".9" stroke-width="5" paint-order="fill stroke markers"/>
     </g>
-    <g id="background-images-ae1e5b6e"/>
-    <g id="graphpaper-ae1e5b6e">
-      <g id="axis-ae1e5b6e">
-        <g>
-          <g>
-            <path fill="none" stroke="rgb(0,0,0)" class="dcg-svg-tickmark" paint-order="fill stroke markers" d="" stroke-opacity="0.9" stroke-miterlimit="2" stroke-width="2" stroke-dasharray=""/>
-          </g>
-        </g>
-      </g>
+    <g id="sketch">
+      <title>Expression 3</title>
+      <path class="dcg-svg-curve" d="m28.865 168v0l11.367-176" fill="none" stroke="#388c46" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity=".9" stroke-width="5" paint-order="fill stroke markers"/>
     </g>
-    <g id="expressions-ae1e5b6e">
-      <g id="sketch-ae1e5b6e">
-        <title>Expression 1</title>
-        <path fill="#c74440" stroke="none" paint-order="stroke fill markers" d="" fill-opacity="0.4"/>
-        <g>
-          <path fill="none" stroke="#c74440" class="dcg-svg-curve" paint-order="fill stroke markers" d=" M 51.64788500638869 168 L 51.64788500638869 168 L 52.265625000000014 164.4666621732968 L 54.10156250000001 154.42997551056573 L 55.898437500000014 145.0518573666382 L 57.65625000000002 136.30359664512298 L 59.37499999999999 128.15710640389838 L 61.0546875 120.58492385511161 L 62.69531249999999 113.56021036517964 L 64.29687500000001 107.05675145478861 L 65.859375 101.04895679889435 L 67.3828125 95.51186022672168 L 68.8671875 90.42111972176497 L 70.31249999999999 85.753017421788 L 71.71874999999999 81.48445961882386 L 73.08593750000003 77.5929767591749 L 74.4140625 74.05672344341332 L 75.70312500000003 70.85447842638 L 76.95312500000001 67.96564461718579 L 78.203125 65.2898554652717 L 79.4140625 62.900846939036626 L 80.5859375 60.77927025612989 L 81.71875 58.906400788470265 L 82.85156249999999 57.20850256765891 L 83.94531249999999 55.73517759701211 L 85.0390625 54.4249649420954 L 86.09375 53.31602377795329 L 87.14843750000001 52.35875210126939 L 88.2421875 51.52622551384802 L 89.29687500000001 50.87791020050496 L 90.27343749999999 50.41285166873716 L 91.2109375 50.088729715037644 L 92.10937499999999 49.890564636941406 L 93.00781250000001 49.802458761678366 L 93.86718750000001 49.8211690310911 L 94.7265625 49.94057618929638 L 95.625 50.17307755706918 L 96.5625 50.53302868260511 L 97.5390625 51.035409268369165 L 98.5546875 51.69582317109575 L 99.6484375 52.56432501914543 L 100.7421875 53.595939182925235 L 101.79687499999999 54.74518816538328 L 102.89062499999999 56.09720152077578 L 103.984375 57.61232719189837 L 105.078125 59.29056517875108 L 106.21093749999999 61.200694737775706 L 107.3828125 63.360816342784204 L 108.55468750000003 65.70818422860538 L 109.76562500000003 68.33051033118534 L 111.01562500000001 71.24714343287472 L 112.3046875 74.47805647029362 L 113.59374999999997 77.93553750749574 L 114.92187499999999 81.73476126828001 L 116.2890625 85.89694899780503 L 117.6953125 90.44394609549894 L 119.14062499999999 95.39822211505927 L 120.62500000000003 100.78287076445304 L 122.14843749999999 106.62160990591616 L 123.7109375 112.93878155595468 L 125.3125 119.7593518853434 L 126.95312499999999 127.10891121912672 L 128.63281250000003 135.01367403661862 L 130.3125 143.30312393546868 L 132.03125000000003 152.1835621628048 L 133.7890625 161.68245150647908 L 134.90797494196443 168" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.9" stroke-dasharray=""/>
-        </g>
-      </g>
-      <g id="sketch-ae1e5b6e">
-        <title>Expression 3</title>
-        <path fill="#388c46" stroke="none" paint-order="stroke fill markers" d="" fill-opacity="0.4"/>
-        <g>
-          <path fill="none" stroke="#388c46" class="dcg-svg-curve" paint-order="fill stroke markers" d=" M 28.865211988478233 168 L 28.865211988478233 168 L 40.232286970424795 -8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.9" stroke-dasharray=""/>
-        </g>
-      </g>
-      <g id="sketch-ae1e5b6e">
-        <title>Expression 4</title>
-        <path fill="#6042a6" stroke="none" paint-order="stroke fill markers" d="" fill-opacity="0.4"/>
-        <g>
-          <path fill="none" stroke="#6042a6" class="dcg-svg-curve" paint-order="fill stroke markers" d=" M 0 97.01378609777527 L 0 97.01378609777527 L 160 14.344149865436378" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.9" stroke-dasharray=""/>
-        </g>
-      </g>
-      <g id="sketch-ae1e5b6e">
-        <title>Expression 2</title>
-        <circle d=" M 34.504676723993605 79.03406086833627 L 34.504676723993605 79.23406086833626 L 34.70467672399361 79.23406086833626 L 34.70467672399361 79.03406086833627" stroke-linecap="round" stroke-linejoin="round" cx="34.504676723993605" cy="79.03406086833627" r="8"/>
-      </g>
+    <g id="a">
+      <title>Expression 4</title>
+      <path class="dcg-svg-curve" d="m0 97.014v0l160-82.67" fill="none" stroke="#6042a6" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity=".9" stroke-width="5" paint-order="fill stroke markers"/>
     </g>
-    <g id="labels-ae1e5b6e"/>
+    <g>
+      <title>Expression 2</title>
+      <circle cx="34.505" cy="79.034" r="8" d=" M 34.504676723993605 79.03406086833627 L 34.504676723993605 79.23406086833626 L 34.70467672399361 79.23406086833626 L 34.70467672399361 79.03406086833627" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
   </g>
 </svg>
